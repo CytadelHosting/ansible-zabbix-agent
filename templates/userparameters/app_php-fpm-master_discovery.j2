@@ -1,2 +1,4 @@
+{% raw %}
 ##### CYTADEL - AUTO DETECT PHPFPM VERSION
 UserParameter=phpfpm.discover,l=$(ps aux | grep -oE '(\/etc\/php\/[0-9].[0-9]\/fpm\/php-fpm\.conf)' | grep -oE '([7].[0-9]{1,2})');echo -n '{"data":[';for i in ${l};do echo -n "{\"{#FPM}\": \"$i\"},";done|sed -e 's:\},$:\}:';echo -n ']}'
+{% endraw %}
