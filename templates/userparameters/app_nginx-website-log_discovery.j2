@@ -1,4 +1,4 @@
 {% raw %}
 ##### CYTADEL - AUTO DETECT ACCESS LOG
-UserParameter=nginx.websitelogdiscover,data=$(ls -l /var/log/nginx/ | grep "^.*\Saccess.log$" | awk '{if ($5 != 0) print $9}' | awk -F "." '{print $1}');echo -n '{"data":[';for i in ${data};do echo -n "{\"{#WEBSITE}\": \"$i\"},";done|sed -e 's:\},$:\}:';echo -n ']}'
+UserParameter=nginx.websitelogdiscover,data=$(ls -l /var/log/nginx/ | grep "^.*\Saccess.log$" | awk '{if ($5 != 0) print $9}' | awk -F ".access.log" '{print $1}');echo -n '{"data":[';for i in ${data};do echo -n "{\"{#WEBSITE}\": \"$i\"},";done|sed -e 's:\},$:\}:';echo -n ']}'
 {% endraw %}
