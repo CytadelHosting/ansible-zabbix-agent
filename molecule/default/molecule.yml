@@ -7,13 +7,6 @@ lint:
   name: yamllint
 
 platforms:
-  - name: zabbix-agent-docker-centos
-    image: milcom/centos7-systemd:latest
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    groups:
-      - docker
-    privileged: True
   - name: zabbix-agent-centos
     image: milcom/centos7-systemd:latest
     groups:
@@ -50,10 +43,17 @@ provisioner:
     name: ansible-lint
   inventory:
     host_vars:
+      zabbix-agent-ubuntu-bionic:
+        ansible_python_interpreter: /usr/bin/python3
+      zabbix-agent-debian-stretch:
+        ansible_python_interpreter: /usr/bin/python
+        zabbix_agent_apt_priority: 600
       zabbix-agent-fedora:
         ansible_python_interpreter: /usr/bin/python3
     group_vars:
       all:
+        zabbix_agent_src_reinstall: False
+        zabbix_install_pip_packages: False
         zabbix_agent_server: 192.168.3.33
         zabbix_agent_serveractive: 192.168.3.33
         zabbix_agent_listenip: 0.0.0.0
@@ -62,8 +62,6 @@ provisioner:
         zabbix_agent_tlspskidentity: my_Identity
         zabbix_agent_tlspskfile: /data/certs/zabbix.psk
         zabbix_agent_tlspsk_secret: 97defd6bd126d5ba7fa5f296595f82eac905d5eda270207a580ab7c0cb9e8eab
-      docker:
-        zabbix_agent_docker: True
 
 scenario:
   name: default
